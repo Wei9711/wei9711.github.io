@@ -23,6 +23,11 @@
     @include suffix(2 of 12);
   }
 
+  // Fix for sidebar overlap when sidebar is fixed
+  @media screen and (min-width: $sidebar-screen-min-width) {
+    margin-left: calc(#{$sidebar-link-max-width} + 2em); // Account for sidebar max-width + padding
+  }
+
   .page__inner-wrap {
     @include full();
 
@@ -30,6 +35,7 @@
     .page__meta,
     .page__share {
       @include full();
+      max-width: 100%; // Ensure content doesn't exceed container
     }
   }
 }
@@ -49,10 +55,35 @@
 }
 
 .page__content {
+  // Set max-width for content area to improve readability
+  // Only apply on large screens to avoid conflicts with grid system
+  @include breakpoint($large) {
+    max-width: 900px; // Adjust this value to your preference
+  }
+  
+  @include breakpoint($x-large) {
+    max-width: 1050px; // Even wider on extra-large screens
+  }
 
+  h1 {
+    margin-bottom: 0.5em !important; // Very small bottom margin for Research Interests
+  }
+  
   h2 {
     padding-bottom: 0.5em;
     border-bottom: 1px solid var(--global-border-color);
+    margin-bottom: 0.1em !important; // Very small bottom margin
+  }
+  
+  // Make gap between h1 and h2 very close (Research Interests -> Graph-based MARL)
+  h1 + h2 {
+    margin-top: 0.1em !important; // Very small top margin when h2 follows h1
+  }
+  
+  // Make gap between h2 and h3 very close, similar to title spacing
+  h2 + h3 {
+    margin-top: 0.1em !important; // Very small top margin when h3 follows h2
+    margin-bottom: 0.5em; // Normal bottom margin for h3
   }
 
   p, li, dl {
@@ -104,6 +135,136 @@
   blockquote + .small {
     margin-top: -1.5em;
     padding-left: 1.25rem;
+  }
+
+  /* Collapsible research sections */
+  details {
+    margin: 0.1em 0 1.5em 0 !important;
+    padding: 0.5em 0;
+    border-bottom: 1px solid var(--global-border-color);
+    
+    // Reduce spacing when details follows a paragraph
+    p + & {
+      margin-top: 0.1em !important;
+    }
+    
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: $type-size-4;
+      margin-bottom: 0;
+      padding: 0.75em 0;
+      list-style: none !important; // Remove default arrow
+      user-select: none;
+      display: block;
+      position: relative;
+      padding-left: 1.5em;
+      
+      // Hide default marker completely
+      &::marker {
+        display: none !important;
+        content: "" !important;
+      }
+      
+      &::-webkit-details-marker {
+        display: none !important;
+      }
+      
+      // Add custom arrow using ::before
+      &::before {
+        content: "+";
+        position: absolute;
+        left: 0;
+        top: 0.75em;
+        display: inline-block;
+        width: 1.2em;
+        height: 1.2em;
+        line-height: 1.2em;
+        text-align: center;
+        font-size: 1em;
+        font-weight: normal;
+        color: var(--global-text-color);
+        background-color: var(--global-border-color);
+        border-radius: 3px;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+      
+      &:hover {
+        color: var(--global-link-color-hover);
+        
+        &::before {
+          background-color: var(--global-link-color-hover);
+          color: #fff;
+        }
+      }
+    }
+    
+    // When open, change plus to minus
+    &[open] summary::before {
+      content: "−";
+    }
+    
+    // Content wrapper inside details
+    > *:not(summary) {
+      display: block;
+      margin-top: 0;
+      margin-bottom: 1.2em;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    
+    // First element after summary - add top margin
+    > summary + * {
+      margin-top: 1em;
+      display: block;
+    }
+    
+    // Paragraphs inside details
+    p {
+      margin-top: 0;
+      margin-bottom: 1.2em;
+      line-height: 1.7;
+      display: block;
+    }
+    
+    // Lists inside details
+    ul, ol {
+      margin-top: 0.8em;
+      margin-bottom: 1.2em;
+      margin-left: 0;
+      padding-left: 2em;
+      display: block;
+      
+      li {
+        margin-top: 0.4em;
+        margin-bottom: 0.6em;
+        line-height: 1.7;
+        display: list-item;
+        list-style-position: outside;
+      }
+    }
+    
+    // Ensure text nodes are properly wrapped
+    > summary + p,
+    > summary + ul {
+      margin-top: 1em;
+    }
+    
+    // Remove extra margin from last element
+    > *:last-child {
+      margin-bottom: 0.8em;
+    }
+  }
+  
+  // Reduce paragraph bottom margin when followed by details
+  p + details {
+    margin-top: 0.1em !important;
+  }
+  
+  // Also reduce paragraph margin when it's the last before details
+  p:has(+ details) {
+    margin-bottom: 0.3em !important;
   }
 }
 

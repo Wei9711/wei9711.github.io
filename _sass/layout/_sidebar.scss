@@ -29,6 +29,8 @@
     opacity: 1;
     -webkit-transition: opacity 0.2s ease-in-out;
             transition: opacity 0.2s ease-in-out;
+    max-width: $sidebar-link-max-width; // Constrain width early
+    box-sizing: border-box;
 
     &:hover {
       opacity: 1;
@@ -37,8 +39,16 @@
 
   @include breakpoint($x-large) {
     max-width: $sidebar-link-max-width;
-    padding-right: 0;
+    width: $sidebar-link-max-width;
+    padding-right: 1em; // Add padding to prevent text overflow
+    padding-left: 1em;  // Add left padding for consistency
+    box-sizing: border-box; // Include padding in width calculation
   }
+
+  // Ensure text wraps properly and doesn't overflow
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-x: hidden; // Prevent horizontal overflow
 
   h2, h3, h4, h5, h6 {
     margin-bottom: 0;
@@ -53,6 +63,9 @@
     font-family: $sans-serif;
     font-size: $type-size-6;
     line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   img {
@@ -116,6 +129,8 @@
     width: 100%;
     padding-left: 0;
     padding-right: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -174,6 +189,9 @@
 
   @include breakpoint($large) {
     display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   button {
@@ -207,6 +225,10 @@
     border: 0;
     background: transparent;
     box-shadow: none;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   &:before {
@@ -245,6 +267,49 @@
 
   li {
     white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    
+    // Allow text wrapping for desktop items (location, employer)
+    &.author__desktop {
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      display: block;
+      line-height: 1.6;
+      
+      // Ensure the icon and text layout properly
+      i {
+        display: inline-block;
+        width: 1.25em;
+        text-align: center;
+        margin-right: 0.5em;
+        flex-shrink: 0;
+        vertical-align: top;
+      }
+      
+      // Style employer text - allow HTML line breaks and proper alignment
+      .employer-text {
+        display: inline;
+        
+        // Make sure br tags create line breaks
+        br {
+          display: block;
+          line-height: 1.6;
+        }
+        
+        // Align "Sydney" with "University" (accounting for icon width)
+        .employer-line2 {
+          display: block;
+          padding-left: 1.75em; // Match icon width (1.25em) + margin (0.5em)
+          text-indent: -1.75em; // Pull text back to align with "University"
+          line-height: 1.6;
+        }
+      }
+    }
   }
 
   a {
@@ -256,6 +321,9 @@
     color: inherit;
     font-size: $type-size-5;
     text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 
     &:hover {
       text-decoration: underline;
