@@ -26,6 +26,7 @@ My work on Multi-agent Reinforcement Learning (MARL) focuses on addressing coord
 
 - **[BayesG (NeurIPS 2025)](/publication/2025-12-01-bayesian-ego-graph-inference)**: Proposed a decentralized actor-critic framework for networked MARL that learns sparse, context-aware interaction structures via Bayesian variational inference. Each agent operates over an ego-graph and samples a latent communication mask to guide message passing and policy computation, enabling agents to jointly learn both interaction topology and decision-making strategies. [[Paper](https://openreview.net/forum?id=3qeTs05bRL)] [[Code](https://github.com/Wei9711/BayesG)]
 
+- **[BVME (AAMAS 2026)](/publication/2026-05-01-bandwidth-constrained-variational-message-encoding)**: Introduced a bandwidth-constrained variational message encoding module that treats inter-agent messages as samples from Gaussian posteriors regularized via KL divergence, enabling principled control over communication bandwidth while preserving coordination performance in cooperative MARL. [[Paper](https://doi.org/10.65109/QXVZ8292)]
 </div>
 
 </details>
